@@ -35,9 +35,18 @@ async function run() {
     res.send(result);
    })
 
-   app.post('/cart', (req, res) =>{
+   const cartCollection = client.db('carMaster').collection('cart');
+   app.get('/cart', async(req, res) =>{
+    const cursor = cartCollection.find();
+    const result = await cursor.toArray();
+    res.send(result);
+   })
+
+   app.post('/cart', async(req, res) =>{
     const newCart  = req.body;
     console.log(newCart);
+    const result = await cartCollection.insertOne(newCart);
+    res.send(result);
    })
 
     // Send a ping to confirm a successful connection
