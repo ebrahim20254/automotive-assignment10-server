@@ -42,10 +42,31 @@ async function run() {
     res.send(result);
    })
 
+   app.get('/cart/:id', async(req, res) =>{
+    const id = req.params.id;
+    const query = {_id : new ObjectId (id)}
+    const result = await cartCollection.findOne(query);
+    res.send(result);
+   })
+
    app.post('/cart', async(req, res) =>{
     const newCart  = req.body;
     console.log(newCart);
     const result = await cartCollection.insertOne(newCart);
+    res.send(result);
+   })
+
+   app.put('/cart/:id', async(req, res) =>{
+    const id = req.params.id;
+    const filter = {_id: new ObjectId(id)}
+    const options = {upsert: true};
+    const updateCarProduct = res.body;
+    const CarProduct = {
+      $set: {
+        photo: updateCarProduct.photo, name: updateCarProduct.name, brand: updateCarProduct.brand_name, type: updateCarProduct.type, description: updateCarProduct.description, rating: updateCarProduct.rating, price: updateCarProduct.price
+      }
+    }
+    const result = await cartCollection.updateOne(filter, options, CarProduct);
     res.send(result);
    })
 
