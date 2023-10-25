@@ -60,13 +60,19 @@ async function run() {
     const id = req.params.id;
     const filter = {_id: new ObjectId(id)}
     const options = {upsert: true};
-    const updateCarProduct = res.body;
+    const updateCarProduct = req.body;
     const CarProduct = {
       $set: {
-        photo: updateCarProduct.photo, name: updateCarProduct.name, brand: updateCarProduct.brand_name, type: updateCarProduct.type, description: updateCarProduct.description, rating: updateCarProduct.rating, price: updateCarProduct.price
+        photo: updateCarProduct.photo,
+         name: updateCarProduct.name,
+          brand: updateCarProduct.brand_name,
+           type: updateCarProduct.type,
+            description: updateCarProduct.description,
+             rating: updateCarProduct.rating,
+              price: updateCarProduct.price
       }
     }
-    const result = await cartCollection.updateOne(filter, options, CarProduct);
+    const result = await cartCollection.updateOne(filter, CarProduct, options);
     res.send(result);
    })
 
